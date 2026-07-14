@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TM AI SDLC Guide</title>
+  <style>
+    :root {
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --text: #1a1a2e;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+      --accent: #2563eb;
+      --accent-light: #dbeafe;
+      --green: #059669;
+      --green-light: #d1fae5;
+      --orange: #d97706;
+      --orange-light: #fef3c7;
+      --purple: #7c3aed;
+      --purple-light: #ede9fe;
+      --rose: #e11d48;
+      --rose-light: #ffe4e6;
+      --teal: #0d9488;
+      --teal-light: #ccfbf1;
+      --gold: #b45309;
+      --gold-light: #fef3c7;
+      --gray-tag: #4b5563;
+      --gray-tag-light: #f3f4f6;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* Header */
+    header {
+      margin-bottom: 48px;
+    }
+
+    .header-top {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+
+    h1 span { color: var(--text-muted); font-weight: 400; }
+
+    .header-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 700px;
+      line-height: 1.7;
+    }
+
+    /* Legend */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+      padding: 16px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+
+    /* Callout boxes */
+    .callouts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin: 32px 0;
+    }
+
+    .callout {
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .callout-title {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .callout-body {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .callout-body strong {
+      font-weight: 600;
+    }
+
+    /* Phase sections */
+    .phase-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 900px) {
+      .phase-grid { grid-template-columns: 1fr; }
+    }
+
+    .phase-section { }
+
+    .phase-header {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .phase-label {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .phase-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .phase-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Steps */
+    .step {
+      position: relative;
+      padding: 20px;
+      margin-bottom: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: box-shadow 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+
+    .step:hover {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border-color: #d1d5db;
+    }
+
+    .step.expanded {
+      border-color: var(--accent);
+      box-shadow: 0 2px 16px rgba(37,99,235,0.08);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .step-number {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--text);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-number.gate {
+      background: var(--gold);
+    }
+
+    .step-content { flex: 1; min-width: 0; }
+
+    .step-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .step-title {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .step-gate-label {
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .step-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .tag-ai { background: var(--teal-light); color: var(--teal); }
+    .tag-engineering { background: var(--gray-tag-light); color: var(--gray-tag); }
+    .tag-product { background: var(--orange-light); color: var(--orange); }
+    .tag-design { background: var(--purple-light); color: var(--purple); }
+    .tag-qa { background: var(--rose-light); color: var(--rose); }
+    .tag-gate { background: var(--gold-light); color: var(--gold); }
+
+    .step-time {
+      display: flex;
+      gap: 16px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .step-time span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .time-current { }
+    .time-target { color: var(--green); font-weight: 600; }
+
+    .chevron {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      color: var(--text-muted);
+      transition: transform 0.2s;
+    }
+
+    .step.expanded .chevron {
+      transform: rotate(180deg);
+    }
+
+    /* Expandable detail */
+    .step-detail {
+      display: none;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .step.expanded .step-detail {
+      display: block;
+    }
+
+    .skill-list {
+      list-style: none;
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 12px;
+      margin-bottom: 6px;
+      border-radius: 8px;
+      background: #f8fafc;
+      border: 1px solid #f1f5f9;
+    }
+
+    .skill-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      margin-top: 1px;
+    }
+
+    .skill-name {
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      color: var(--accent);
+    }
+
+    .skill-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      line-height: 1.5;
+    }
+
+    .skill-status {
+      display: inline-flex;
+      align-items: center;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-left: 8px;
+    }
+
+    .status-ready { background: var(--green-light); color: var(--green); }
+    .status-wip { background: var(--orange-light); color: var(--orange); }
+    .status-planned { background: var(--gray-tag-light); color: var(--gray-tag); }
+
+    /* Connector line between steps */
+    .connector {
+      width: 2px;
+      height: 12px;
+      background: var(--border);
+      margin: 0 auto;
+    }
+
+    /* Loop back indicator */
+    .loop-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      margin: -4px 0 12px 40px;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-left: 2px dashed var(--border);
+    }
+
+    .loop-back svg {
+      flex-shrink: 0;
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Handoff banner */
+    .handoff {
+      margin: 24px 0;
+      padding: 14px 20px;
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    .handoff span {
+      margin: 0 8px;
+      color: var(--accent);
+    }
+
+    /* Search */
+    .search-bar {
+      margin: 32px 0 0;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 12px 16px 12px 44px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-bar input:focus {
+      border-color: var(--accent);
+    }
+
+    .search-bar input::placeholder {
+      color: #9ca3af;
+    }
+
+    .search-bar svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      color: #9ca3af;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+      font-size: 14px;
+      display: none;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* Expand all toggle */
+    .controls {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 16px;
+    }
+
+    .btn-toggle {
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      font-size: 12px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .btn-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="header-top">AI SDLC &middot; Test Management &middot; BrowserStack</div>
+      <h1>AI-Powered SDLC <span>&times;</span> Skills Guide</h1>
+      <p class="header-desc">
+        How a TM developer takes a feature from idea to production. Each phase maps to the
+        AI skills and tools available to accelerate the work. Click any phase to see the
+        recommended skills.
+      </p>
+
+      <!-- Legend -->
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> AI Skill</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--gray-tag)"></div> Engineering</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div> Product / PM</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div> Design</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--rose)"></div> QA</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> Gate / Decision</div>
+      </div>
+    </header>
+
+    <!-- Callout boxes -->
+    <div class="callouts">
+      <div class="callout">
+        <div class="callout-title">Skill Convention</div>
+        <div class="callout-body">
+          Skills prefixed with <strong>/stack:</strong> are orchestrator skills that chain multiple steps.
+          Skills prefixed with <strong>/tcm-</strong> or <strong>/tm-</strong> are domain-specific to Test Management.
+        </div>
+      </div>
+      <div class="callout">
+        <div class="callout-title">Skill Status</div>
+        <div class="callout-body">
+          <span style="color:var(--green);font-weight:600">Ready</span> &mdash; available now.
+          <span style="color:var(--orange);font-weight:600">WIP</span> &mdash; in development.
+          <span style="color:var(--gray-tag);font-weight:600">Planned</span> &mdash; placeholder, skill TBD.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Search -->
+    <div class="search-bar">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+      </svg>
+      <input type="text" id="search" placeholder="Search phases, skills, or roles..." autocomplete="off">
+    </div>
+
+    <div class="controls">
+      <button class="btn-toggle" id="toggleAll">Expand All</button>
+    </div>
+
+    <div id="noResults" class="no-results">No matching phases found.</div>
+
+    <!-- Phase Grid -->
+    <div class="phase-grid">
+
+      <!-- ========== PHASE 01: DEV DONE ========== -->
+      <div class="phase-section">
+        <div class="phase-header">
+          <div class="phase-label">Phase 01 &middot; Builder-Owned</div>
+          <div class="phase-title">Dev-Done</div>
+          <div class="phase-subtitle">Idea &rarr; PRD &rarr; Code &rarr; Regression cases &rarr; PR review &rarr; ready to move</div>
+        </div>
+
+        <!-- Step 01 -->
+        <div class="step" data-search="prd design creation requirement product pm ai skill stack:tm-pm stack:prd-create">
+          <div class="step-header">
+            <div class="step-number">01</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">Requirement &mdash; PRD + Design Creation</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-product">Product</span>
+                <span class="tag tag-design">Design</span>
+                <span class="tag tag-ai">AI Skill</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:tm-pm <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Product manager assistant &mdash; writes feature briefs, product requirements, and task briefs from ideas or tickets.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:prd-create <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Authors a full PRD from a feature idea, ticket, or rough brief using the team's PRD template.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tcm-design-system <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Handles component selection, mock UI generation, and design-stack enforcement for any UI work.</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Step 02 -->
+        <div class="step" data-search="prd design sign off review product pm stack:prd-review">
+          <div class="step-header">
+            <div class="step-number gate">02</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">PRD + Design Sign Off</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-gate">Gate</span>
+                <span class="tag tag-product">Product</span>
+                <span class="tag tag-design">Design</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:prd-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Audits PRD for quality, completeness, logic gaps, ambiguity, testability, and dev-readiness.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tm-ux-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Post-implementation UX and design-system review for TCM frontend.</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Step 03 -->
+        <div class="step" data-search="tech spec creation review testhub teststack testhub-sdk-ruby engineering tcm-tech-spec">
+          <div class="step-header">
+            <div class="step-number">03</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">Tech Spec Creation + Review</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-engineering">Engineering</span>
+                <span class="tag tag-ai">AI Skill</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tcm-tech-spec <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Creates backend tech specs following TM's established patterns across TH, TS, and SDK.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tcm-tech-spec-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Reviews tech specs for completeness, correctness, and implementation readiness.</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Step 04 -->
+        <div class="step" data-search="qa plan test cases coverage quality assurance">
+          <div class="step-header">
+            <div class="step-number">04</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">QA Plan &mdash; Test Cases and Coverage</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-qa">QA</span>
+                <span class="tag tag-ai">AI Skill</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:qa-test-author <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Authors QA and acceptance test cases from a PRD or spec, in isolation from the implementation.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tm-defect-coverage <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Finds test-coverage gaps from production defects, triages them, and authors regression guards.</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Step 05 -->
+        <div class="step" data-search="development exploratory testing coding implementation backend frontend stack:dev tcm-backend-development">
+          <div class="step-header">
+            <div class="step-number">05</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">Development + Exploratory Testing</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-engineering">Engineering</span>
+                <span class="tag tag-ai">AI Skill</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:dev <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Idea-to-PR orchestrator. Takes a one-liner, Jira issue, or PRD and drives it to opened PRs.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tcm-backend-development <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Implements backend features across TestHub, TestStack, and testhub-sdk-ruby.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tcm-design-system <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Mandatory for any UI change &mdash; component selection, mock UI, design-stack enforcement.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/frontend-feature <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Guides creating or modifying a feature in the TCM frontend app &mdash; structure, patterns, and conventions.</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Step 06 -->
+        <div class="step" data-search="writing review automation coverage test cases qa engineering">
+          <div class="step-header">
+            <div class="step-number">06</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">Writing &amp; Review Automation Coverage</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-qa">QA</span>
+                <span class="tag tag-engineering">Engineering</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:qa-test-author <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Authors QA test cases from a PRD or spec, delegates to BStackAutomation test skills.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:test-development <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">QA automation dev skill &mdash; writes automation test code, internally uses /stack:feature-dev.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:pr-quality-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">QA PR quality review for automation test code.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:code-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">QA code review for BStackAutomation test suites.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:test-suite-audit <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Audits automation test suites for coverage, flakiness, and quality.</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Step 07 -->
+        <div class="step" data-search="running feature specific local regression ui api stack:tm-local-automation">
+          <div class="step-header">
+            <div class="step-number">07</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">Running Local Regression &mdash; UI + API</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-engineering">Engineering</span>
+                <span class="tag tag-ai">AI Skill</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:tm-local-automation <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Sets up and runs TM automation suite locally &mdash; BStackAutomation API (Jest) + UI (WdIO) specs.</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Step 08 -->
+        <div class="step" data-search="final qa review test case coverage ensuring iterations quality">
+          <div class="step-header">
+            <div class="step-number gate">08</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">Final QA Review + Ensuring Coverage</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-gate">Gate</span>
+                <span class="tag tag-qa">QA</span>
+                <span class="tag tag-engineering">Engineering</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tm-defect-coverage <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Proactively finds test-coverage gaps from production defects and authors regression guards.</div>
+                </div>
+              </li>
+            </ul>
+            <div class="loop-back">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" /></svg>
+              Up to 3 iterations &rarr; loop back to Step 05 if needed
+            </div>
+          </div>
+        </div>
+
+        <div class="handoff">Dev-Done complete <span>&rarr;</span> hands off to Dev-Delivered</div>
+      </div>
+
+      <!-- ========== PHASE 02: DEV DELIVERED ========== -->
+      <div class="phase-section">
+        <div class="phase-header">
+          <div class="phase-label">Phase 02 &middot; Release Pipeline</div>
+          <div class="phase-title">Dev-Delivered</div>
+          <div class="phase-subtitle">PR review &rarr; UAT &rarr; Regression &rarr; GTG &rarr; Deploy &rarr; Production</div>
+        </div>
+
+        <!-- Step 09 -->
+        <div class="step" data-search="cross team pr readiness review code engineering tm-code-review stack:open-pr">
+          <div class="step-header">
+            <div class="step-number">09</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">Cross Team PR Readiness + Review</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-engineering">Engineering</span>
+                <span class="tag tag-ai">AI Skill</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tm-code-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Smart code review orchestrator &mdash; auto-detects repos and dispatches expert reviewers.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:open-pr <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Opens a Draft PR for the current repo, fills the PR template, and links the Jira issue.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tm-testhub-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Expert code reviewer for TestHub &mdash; security, performance, patterns, and code quality.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tm-teststack-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Expert code reviewer for TestStack &mdash; Rails conventions, SDK, Sidekiq patterns.</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Step 10 -->
+        <div class="step" data-search="automation pr review qa">
+          <div class="step-header">
+            <div class="step-number">10</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">Automation PR Review by QA</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-qa">QA</span>
+                <span class="tag tag-ai">AI Skill</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/forge-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Code reviewer for Forge apps &mdash; Forge constraints, API patterns, design-stack usage.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:pr-quality-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">QA PR quality review for automation test code.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:code-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">QA code review for BStackAutomation test suites.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:test-suite-audit <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Audits automation test suites for coverage, flakiness, and quality.</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Step 11 -->
+        <div class="step" data-search="uat sign off user acceptance testing product design">
+          <div class="step-header">
+            <div class="step-number gate">11</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">UAT Sign Off</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-gate">Gate</span>
+                <span class="tag tag-product">Product</span>
+                <span class="tag tag-design">Design</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tcm-drop-merge <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Cherry-picks your feature into the drop/release branch across all five TCM repos. Run this so Product can UAT on the drop env.</div>
+                </div>
+              </li>
+            </ul>
+            <p style="font-size:12px; color:var(--text-muted); padding: 4px 0; margin-top:8px;">UAT itself is owned by Product &mdash; developers only merge to env, then hand off.</p>
+          </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Step 12 -->
+        <div class="step" data-search="regression run time drop branch stack:create-drop">
+          <div class="step-header">
+            <div class="step-number">12</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">Regression Run</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-engineering">Engineering</span>
+                <span class="tag tag-qa">QA</span>
+                <span class="tag tag-ai">AI Skill</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:create-drop <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Creates today's regression drop branch across all TM repos and merges feature branches.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:deploy-staging <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Deploys current branch to TM staging/regression environment via Jenkins.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tcm-drop-master-merge <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Merges each repo's default branch (main/master) into the drop branch across all eight TCM repos.</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Step 13 -->
+        <div class="step" data-search="regression analysis time debug failures debug-drop-regression drop-reason-sweep">
+          <div class="step-header">
+            <div class="step-number">13</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">Regression Analysis</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-qa">QA</span>
+                <span class="tag tag-engineering">Engineering</span>
+                <span class="tag tag-ai">AI Skill</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/debug-drop-regression <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Diagnoses errors, broken behavior, or regressions on the drop/preprod branch.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tm-debug-infra <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Debugs regression-run infra slowness &mdash; puma backlog, pod restarts, CPU throttling, timeout diagnosis.</div>
+                </div>
+              </li>
+            </ul>
+            <div class="loop-back">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" /></svg>
+              Bugs found &rarr; loop back to Step 05 for fixes
+            </div>
+          </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Step 14 -->
+        <div class="step" data-search="cross team gtg go to green">
+          <div class="step-header">
+            <div class="step-number gate">14</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">Cross Team GTG</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-gate">Gate</span>
+                <span class="tag tag-engineering">Engineering</span>
+                <span class="tag tag-qa">QA</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+            </ul>
+          </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Step 15 -->
+        <div class="step" data-search="cross team deploy sanity production stack:deploy-prod">
+          <div class="step-header">
+            <div class="step-number">15</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">Cross Team Deploy + Sanity</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-engineering">Engineering</span>
+                <span class="tag tag-ai">AI Skill</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:deploy-prod-teststack <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">End-to-end teststack production deploy assistant.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:deploy-prod-frontend <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">End-to-end TM frontend production deploy assistant.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:deploy-staging <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Deploys to TM staging/regression environment via Jenkins.</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="handoff" style="border-color: var(--green); color: var(--green);">
+          Deployed to Production
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      TM AI SDLC Guide &middot; Test Management &middot; BrowserStack &middot; Last updated July 2025
+    </footer>
+  </div>
+
+  <script>
+    // Toggle individual steps
+    document.querySelectorAll('.step').forEach(step => {
+      step.addEventListener('click', () => {
+        step.classList.toggle('expanded');
+      });
+    });
+
+    // Toggle all
+    const toggleBtn = document.getElementById('toggleAll');
+    let allExpanded = false;
+    toggleBtn.addEventListener('click', () => {
+      allExpanded = !allExpanded;
+      document.querySelectorAll('.step').forEach(step => {
+        step.classList.toggle('expanded', allExpanded);
+      });
+      toggleBtn.textContent = allExpanded ? 'Collapse All' : 'Expand All';
+    });
+
+    // Search
+    const searchInput = document.getElementById('search');
+    const noResults = document.getElementById('noResults');
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      document.querySelectorAll('.step').forEach(step => {
+        const searchText = (
+          step.getAttribute('data-search') + ' ' +
+          step.querySelector('.step-title').textContent
+        ).toLowerCase();
+
+        const match = !query || searchText.includes(query);
+        step.style.display = match ? '' : 'none';
+        if (match) visibleCount++;
+
+        // Also hide connectors and loop-backs around hidden steps
+        const nextSibling = step.nextElementSibling;
+        if (nextSibling && nextSibling.classList.contains('connector')) {
+          nextSibling.style.display = match ? '' : 'none';
+        }
+      });
+
+      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    });
+  </script>
+</body>
+</html>
