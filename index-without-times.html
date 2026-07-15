@@ -521,7 +521,8 @@
       <div class="callout">
         <div class="callout-title">Skill Status</div>
         <div class="callout-body">
-          <span style="color:var(--green);font-weight:600">Ready</span> &mdash; available now.<br>
+          <span style="color:var(--green);font-weight:600">Ready</span> &mdash; available now.
+          <span style="color:var(--orange);font-weight:600">WIP</span> &mdash; in development.
           <span style="color:var(--gray-tag);font-weight:600">Planned</span> &mdash; placeholder, skill TBD.
         </div>
       </div>
@@ -672,7 +673,7 @@
             <div class="step-number">04</div>
             <div class="step-content">
               <div class="step-title-row">
-                <div class="step-title">QA Plan &mdash; Test Cases</div>
+                <div class="step-title">QA Plan &mdash; Test Cases and Coverage</div>
                 <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
               </div>
               <div class="step-meta">
@@ -685,8 +686,14 @@
             <ul class="skill-list">
               <li class="skill-item">
                 <div>
-                  <div class="skill-name">/superpowers:brainstorming <span class="skill-status status-ready">Ready</span></div>
-                  <div class="skill-desc">Generates QA test cases through brainstorming. Coverage is handled separately under QA Review.</div>
+                  <div class="skill-name">/stack:qa-test-author <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Authors QA and acceptance test cases from a PRD or spec, in isolation from the implementation.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tm-defect-coverage <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Finds test-coverage gaps from production defects, triages them, and authors regression guards.</div>
                 </div>
               </li>
             </ul>
@@ -715,7 +722,7 @@
               <li class="skill-item">
                 <div>
                   <div class="skill-name">/stack:dev <span class="skill-status status-ready">Ready</span></div>
-                  <div class="skill-desc">Idea-to-PR orchestrator. Takes a one-liner, Jira issue, or PRD and drives it to opened PRs. Internally calls <code>/stack:intake</code> (Plumb) &mdash; auto-invokes only if ran with frontend as root repo.</div>
+                  <div class="skill-desc">Idea-to-PR orchestrator. Takes a one-liner, Jira issue, or PRD and drives it to opened PRs.</div>
                 </div>
               </li>
               <li class="skill-item">
@@ -727,7 +734,7 @@
               <li class="skill-item">
                 <div>
                   <div class="skill-name">/tcm-design-system <span class="skill-status status-ready">Ready</span></div>
-                  <div class="skill-desc">Handles component selection, mock UI generation, and design-stack enforcement for any UI work.</div>
+                  <div class="skill-desc">Mandatory for any UI change &mdash; component selection, mock UI, design-stack enforcement.</div>
                 </div>
               </li>
               <li class="skill-item">
@@ -761,14 +768,26 @@
             <ul class="skill-list">
               <li class="skill-item">
                 <div>
-                  <div class="skill-name">/stack:feature-dev <span class="skill-status status-ready">Ready</span></div>
-                  <div class="skill-desc">QA automation dev skill &mdash; writes automation test code. Internally calls <code>/stack:test-development</code>.</div>
+                  <div class="skill-name">/stack:qa-test-author <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Authors QA test cases from a PRD or spec, delegates to BStackAutomation test skills.</div>
                 </div>
               </li>
               <li class="skill-item">
                 <div>
-                  <div class="skill-name">/stack:pr-review <span class="skill-status status-ready">Ready</span></div>
-                  <div class="skill-desc">QA automation PR review. Internally calls <code>/stack:code-review</code> and <code>/stack:pr-quality-review</code>.</div>
+                  <div class="skill-name">/stack:test-development <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">QA automation dev skill &mdash; writes automation test code, internally uses /stack:feature-dev.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:pr-quality-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">QA PR quality review for automation test code.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:code-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">QA code review for BStackAutomation test suites.</div>
                 </div>
               </li>
               <li class="skill-item">
@@ -810,6 +829,39 @@
           </div>
         </div>
 
+        <div class="connector"></div>
+
+        <!-- Step 08 -->
+        <div class="step" data-search="final qa review test case coverage ensuring iterations quality">
+          <div class="step-header">
+            <div class="step-number gate">08</div>
+            <div class="step-content">
+              <div class="step-title-row">
+                <div class="step-title">Final QA Review + Ensuring Coverage</div>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+              </div>
+              <div class="step-meta">
+                <span class="tag tag-gate">Gate</span>
+                <span class="tag tag-qa">QA</span>
+                <span class="tag tag-engineering">Engineering</span>
+              </div>
+</div>
+          </div>
+          <div class="step-detail">
+            <ul class="skill-list">
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tm-defect-coverage <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Proactively finds test-coverage gaps from production defects and authors regression guards.</div>
+                </div>
+              </li>
+            </ul>
+            <div class="loop-back">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" /></svg>
+              Up to 3 iterations &rarr; loop back to Step 05 if needed
+            </div>
+          </div>
+        </div>
 
         <div class="handoff">Dev-Done complete <span>&rarr;</span> hands off to Dev-Delivered</div>
       </div>
@@ -822,10 +874,10 @@
           <div class="phase-subtitle">PR review &rarr; UAT &rarr; Regression &rarr; GTG &rarr; Deploy &rarr; Production</div>
         </div>
 
-        <!-- Step 08 -->
+        <!-- Step 09 -->
         <div class="step" data-search="cross team pr readiness review code engineering tm-code-review stack:open-pr">
           <div class="step-header">
-            <div class="step-number">08</div>
+            <div class="step-number">09</div>
             <div class="step-content">
               <div class="step-title-row">
                 <div class="step-title">Cross Team PR Readiness + Review</div>
@@ -841,14 +893,26 @@
             <ul class="skill-list">
               <li class="skill-item">
                 <div>
-                  <div class="skill-name">/stack:pr-review <span class="skill-status status-ready">Ready</span></div>
-                  <div class="skill-desc">PR review orchestrator. Internally calls <code>/stack:code-review</code>, <code>/stack:ts-pr-review</code>, and <code>/stack:th-pr-review</code>.</div>
+                  <div class="skill-name">/tm-code-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Smart code review orchestrator &mdash; auto-detects repos and dispatches expert reviewers.</div>
                 </div>
               </li>
               <li class="skill-item">
                 <div>
-                  <div class="skill-name">/stack:tcm-backend-review <span class="skill-status status-ready">Ready</span></div>
-                  <div class="skill-desc">Reviews backend code changes across TestHub, TestStack, and testhub-sdk-ruby for correctness, performance, security, and TCM conventions.</div>
+                  <div class="skill-name">/stack:open-pr <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Opens a Draft PR for the current repo, fills the PR template, and links the Jira issue.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tm-testhub-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Expert code reviewer for TestHub &mdash; security, performance, patterns, and code quality.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/tm-teststack-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Expert code reviewer for TestStack &mdash; Rails conventions, SDK, Sidekiq patterns.</div>
                 </div>
               </li>
             </ul>
@@ -857,13 +921,13 @@
 
         <div class="connector"></div>
 
-        <!-- Step 09 -->
+        <!-- Step 10 -->
         <div class="step" data-search="automation pr review qa">
           <div class="step-header">
-            <div class="step-number">09</div>
+            <div class="step-number">10</div>
             <div class="step-content">
               <div class="step-title-row">
-                <div class="step-title">Automation PR Review for QA</div>
+                <div class="step-title">Automation PR Review by QA</div>
                 <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
               </div>
               <div class="step-meta">
@@ -876,8 +940,20 @@
             <ul class="skill-list">
               <li class="skill-item">
                 <div>
-                  <div class="skill-name">/stack:pr-review <span class="skill-status status-ready">Ready</span></div>
-                  <div class="skill-desc">QA automation PR review. Internally calls <code>/stack:code-review</code> and <code>/stack:pr-quality-review</code>.</div>
+                  <div class="skill-name">/forge-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Code reviewer for Forge apps &mdash; Forge constraints, API patterns, design-stack usage.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:pr-quality-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">QA PR quality review for automation test code.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:code-review <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">QA code review for BStackAutomation test suites.</div>
                 </div>
               </li>
               <li class="skill-item">
@@ -892,10 +968,10 @@
 
         <div class="connector"></div>
 
-        <!-- Step 10 -->
+        <!-- Step 11 -->
         <div class="step" data-search="uat sign off user acceptance testing product design">
           <div class="step-header">
-            <div class="step-number gate">10</div>
+            <div class="step-number gate">11</div>
             <div class="step-content">
               <div class="step-title-row">
                 <div class="step-title">UAT Sign Off</div>
@@ -923,10 +999,10 @@
 
         <div class="connector"></div>
 
-        <!-- Step 11 -->
+        <!-- Step 12 -->
         <div class="step" data-search="regression run time drop branch stack:create-drop">
           <div class="step-header">
-            <div class="step-number">11</div>
+            <div class="step-number">12</div>
             <div class="step-content">
               <div class="step-title-row">
                 <div class="step-title">Regression Run</div>
@@ -965,10 +1041,10 @@
 
         <div class="connector"></div>
 
-        <!-- Step 12 -->
+        <!-- Step 13 -->
         <div class="step" data-search="regression analysis time debug failures debug-drop-regression drop-reason-sweep">
           <div class="step-header">
-            <div class="step-number">12</div>
+            <div class="step-number">13</div>
             <div class="step-content">
               <div class="step-title-row">
                 <div class="step-title">Regression Analysis</div>
@@ -1005,10 +1081,10 @@
 
         <div class="connector"></div>
 
-        <!-- Step 13 -->
+        <!-- Step 14 -->
         <div class="step" data-search="cross team gtg go to green">
           <div class="step-header">
-            <div class="step-number gate">13</div>
+            <div class="step-number gate">14</div>
             <div class="step-content">
               <div class="step-title-row">
                 <div class="step-title">Cross Team GTG</div>
@@ -1029,10 +1105,10 @@
 
         <div class="connector"></div>
 
-        <!-- Step 14 -->
+        <!-- Step 15 -->
         <div class="step" data-search="cross team deploy sanity production stack:deploy-prod">
           <div class="step-header">
-            <div class="step-number">14</div>
+            <div class="step-number">15</div>
             <div class="step-content">
               <div class="step-title-row">
                 <div class="step-title">Cross Team Deploy + Sanity</div>
@@ -1056,6 +1132,12 @@
                 <div>
                   <div class="skill-name">/stack:deploy-prod-frontend <span class="skill-status status-ready">Ready</span></div>
                   <div class="skill-desc">End-to-end TM frontend production deploy assistant.</div>
+                </div>
+              </li>
+              <li class="skill-item">
+                <div>
+                  <div class="skill-name">/stack:deploy-staging <span class="skill-status status-ready">Ready</span></div>
+                  <div class="skill-desc">Deploys to TM staging/regression environment via Jenkins.</div>
                 </div>
               </li>
             </ul>
